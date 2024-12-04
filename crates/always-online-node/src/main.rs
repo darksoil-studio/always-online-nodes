@@ -36,7 +36,7 @@ async fn main() -> Result<()> {
 
     let config = HolochainRuntimeConfig::new(args.data_dir, wan_network_config());
 
-    let runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
+    let mut runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
     let admin_ws = runtime.admin_websocket().await?;
 
     let installed_apps = admin_ws
@@ -61,12 +61,38 @@ async fn main() -> Result<()> {
         }
     }
 
-    // Just be online always
+    let mut last_can_connect = true;
     loop {
-        std::thread::park();
+        let can_connect = can_connect_to_signal_server(url2::url2!("{}", SIGNAL_URL))
+            .await
+            .is_ok();
+
+        if last_can_connect != can_connect {
+            last_can_connect = can_connect;
+            runtime.conductor_handle.shutdown().await?;
+            runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
+        }
+
+        std::thread::sleep(Duration::from_secs(5));
     }
 }
 
+pub async fn can_connect_to_signal_server(signal_url: Url2) -> std::io::Result<()> {
+    let config = tx5_signal::SignalConfig {
+        listener: false,
+        allow_plain_text: true,
+        ..Default::default()
+    };
+    let signal_url_str = if let Some(s) = signal_url.as_str().strip_suffix('/') {
+        s
+    } else {
+        signal_url.as_str()
+    };
+
+    tx5_signal::SignalConnection::connect(signal_url_str, Arc::new(config)).await?;
+
+    Ok(())
+}
 fn app_id_for_dna_bundle(dna_bundle: &DnaBundle) -> Result<InstalledAppId> {
     let bytes = dna_bundle.encode()?;
     let hash = sha256::digest(&bytes);
