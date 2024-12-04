@@ -136,6 +136,7 @@ dependencies = [
  "mr_bundle",
  "sha256",
  "tokio",
+ "url2",
 ]
 
 [[package]]

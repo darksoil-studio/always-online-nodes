@@ -7,8 +7,8 @@ edition = "2021"
 holochain_runtime = { git = "https://github.com/darksoil-studio/p2p-shipyard", branch = "main-0.4" }
 anyhow = "1"
 clap = {version = "4.5.4", features = [ "derive" ] }
-tokio = { version = "1", features = [ "macros" ] } 
+tokio = { version = "1", features = [ "full" ] } 
 holochain_types = "0.4.0-rc"
 mr_bundle = "0.4.0-rc"
 sha256 = "1"
-# tokio = {"version"= "1", features=["rt-threaded", "macros"]}
+url2 = "0.0.6"

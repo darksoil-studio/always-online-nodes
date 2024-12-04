@@ -1,8 +1,9 @@
-use anyhow::Result;
-use clap::{Args, Parser};
+use anyhow::{anyhow, Result};
+use clap::Parser;
 use holochain_runtime::*;
 use holochain_types::prelude::*;
 use mr_bundle::Location;
+use std::path::PathBuf;
 
 const SIGNAL_URL: &'static str = "wss://sbd.holo.host";
 const BOOTSTRAP_URL: &'static str = "https://bootstrap-0.infra.holochain.org";
@@ -29,22 +30,25 @@ fn wan_network_config() -> Option<WANNetworkConfig> {
     })
 }
 
-#[tokio::async_main]
+#[tokio::main]
 async fn main() -> Result<()> {
     let args = Args::parse();
 
     let config = HolochainRuntimeConfig::new(args.holochain_dir, wan_network_config());
 
-    let runtime = HolochainRuntime::launch(vec_to_locked(vec![]), config).await?;
-    let admin_ws = runtime.admin_ws().await?;
+    let runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
+    let admin_ws = runtime.admin_websocket().await?;
 
-    let installed_apps = admin_ws.installed_apps(None).await?;
+    let installed_apps = admin_ws
+        .list_apps(None)
+        .await
+        .map_err(|err| anyhow!("{err:?}"))?;
 
-    for dna_bundle_path in args.dna_bundles_path {
-        let dna_bundle = DnaBundle::read_from_file(dna_bundle_path)?;
+    for dna_bundle_path in args.dna_bundles_paths {
+        let dna_bundle = DnaBundle::read_from_file(dna_bundle_path.as_path()).await?;
 
-        let app_id = app_id_for_dna_bundle(dna_bundle.clone())?;
-        let happ_bundle = wrap_dna_in_happ(dna_bundle)?;
+        let app_id = app_id_for_dna_bundle(&dna_bundle)?;
+        let happ_bundle = wrap_dna_in_happ(dna_bundle).await?;
 
         if installed_apps
             .iter()
@@ -63,19 +67,19 @@ async fn main() -> Result<()> {
     }
 }
 
-fn app_id_for_dna_bundle(dna_bundle: DnaBundle) -> Result<InstalledAppId> {
+fn app_id_for_dna_bundle(dna_bundle: &DnaBundle) -> Result<InstalledAppId> {
     let bytes = dna_bundle.encode()?;
     let hash = sha256::digest(&bytes);
     Ok(hash)
 }
 
-fn wrap_dna_in_happ(dna_bundle: DnaBundle) -> Result<AppBundle> {
+async fn wrap_dna_in_happ(dna_bundle: DnaBundle) -> Result<AppBundle> {
     let role_manifest = AppRoleManifest {
         name: String::from("dna"),
         provisioning: Some(CellProvisioning::Create { deferred: false }),
         dna: AppRoleDnaManifest {
-            location: Some(Location::Bundled()),
-            modifiers: None,
+            location: Some(Location::Bundled(PathBuf::from("dna.dna"))),
+            modifiers: Default::default(),
             installed_hash: None,
             clone_limit: 0,
         },
@@ -91,6 +95,7 @@ fn wrap_dna_in_happ(dna_bundle: DnaBundle) -> Result<AppBundle> {
         app_manifest,
         vec![(PathBuf::from("dna.dna"), dna_bundle)],
         PathBuf::from(""),
-    );
+    )
+    .await?;
     Ok(app_bundle)
 }
