@@ -16,7 +16,7 @@ struct Args {
 
     /// Directory to store all holochain data
     #[arg(long)]
-    holochain_dir: PathBuf,
+    data_dir: PathBuf,
 }
 
 fn wan_network_config() -> Option<WANNetworkConfig> {
@@ -34,7 +34,7 @@ fn wan_network_config() -> Option<WANNetworkConfig> {
 async fn main() -> Result<()> {
     let args = Args::parse();
 
-    let config = HolochainRuntimeConfig::new(args.holochain_dir, wan_network_config());
+    let config = HolochainRuntimeConfig::new(args.data_dir, wan_network_config());
 
     let runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
     let admin_ws = runtime.admin_websocket().await?;
