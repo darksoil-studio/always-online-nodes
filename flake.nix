@@ -3,6 +3,7 @@
 
   inputs = {
     holonix.url = "github:holochain/holonix/main-0.4";
+    crane.follows = "holonix/crane";
 
     nixpkgs.follows = "holonix/nixpkgs";
     flake-parts.follows = "holonix/flake-parts";
@@ -24,7 +25,10 @@
 
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ inputs.tnesh-stack.outputs.flakeModules.builders ];
+      imports = [
+        inputs.tnesh-stack.outputs.flakeModules.builders
+        ./crates/always-online-node/default.nix
+      ];
 
       systems = builtins.attrNames inputs.holonix.devShells;
       perSystem = { inputs', config, pkgs, system, ... }: {

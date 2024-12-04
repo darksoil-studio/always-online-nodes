@@ -328,6 +328,10 @@
     },
     "root": {
       "inputs": {
+        "crane": [
+          "holonix",
+          "crane"
+        ],
         "flake-parts": [
           "holonix",
           "flake-parts"

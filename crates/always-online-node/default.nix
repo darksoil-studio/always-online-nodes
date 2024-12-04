@@ -1,7 +1,7 @@
 { inputs, self, ... }:
 
 {
-  perSystem = { inputs', pkgs, self', lib, ... }: rec {
+  perSystem = { inputs', pkgs, self', lib, system, ... }: rec {
 
     packages.always-online-node = let
       craneLib = inputs.crane.mkLib pkgs;
@@ -15,7 +15,8 @@
       commonArgs = {
         src = craneLib.cleanCargoSource (craneLib.path self.outPath);
         doCheck = false;
-        buildInputs = self'.dependencies.holochain.buildInputs;
+        buildInputs =
+          inputs.tnesh-stack.outputs.dependencies.${system}.holochain.buildInputs;
       };
     in craneLib.buildPackage (commonArgs // {
       pname = crate;
