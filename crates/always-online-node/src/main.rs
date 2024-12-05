@@ -1,9 +1,15 @@
 use anyhow::{anyhow, Result};
+use chrono::Local;
 use clap::Parser;
+use env_logger::Builder;
 use holochain_runtime::*;
 use holochain_types::prelude::*;
+use log::Level;
 use mr_bundle::Location;
+use std::fs::File;
+use std::io::Write;
 use std::path::PathBuf;
+use std::str::FromStr;
 use std::sync::Arc;
 use std::time::Duration;
 use url2::Url2;
@@ -33,10 +39,19 @@ fn wan_network_config() -> Option<WANNetworkConfig> {
     })
 }
 
-fn log_level() -> String {
+fn log_level() -> Level {
     match std::env::var("RUST_LOG") {
-        Ok(s) => s,
-        _ => "info".into(),
+        Ok(s) => Level::from_str(s.as_str()).expect("Invalid RUST_LOG level"),
+        _ => Level::Info,
+    }
+}
+
+fn set_wasm_level() {
+    match std::env::var("WASM_LOG") {
+        Ok(_s) => {}
+        _ => {
+            std::env::set_var("WASM_LOG", "info");
+        }
     }
 }
 
@@ -44,15 +59,22 @@ fn log_level() -> String {
 async fn main() -> Result<()> {
     let args = Args::parse();
 
-    let _log2 = log2::open(
-        args.data_dir
-            .join("logs.log")
-            .as_os_str()
-            .to_str()
-            .expect("Failed to get &str"),
-    )
-    .level(log_level())
-    .start();
+    let target = Box::new(File::create(args.data_dir.join("logs.log")).expect("Can't create file"));
+
+    Builder::new()
+        .format(|buf, record| {
+            writeln!(
+                buf,
+                "[{}] {} - {}",
+                record.level(),
+                Local::now().format("%Y-%m-%dT%H:%M:%S%.3f"),
+                record.args()
+            )
+        })
+        .target(env_logger::Target::Pipe(target))
+        .filter(None, log_level().to_level_filter())
+        .init();
+    set_wasm_level();
 
     let config = HolochainRuntimeConfig::new(args.data_dir.clone(), wan_network_config());
 
