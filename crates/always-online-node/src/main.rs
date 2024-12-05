@@ -63,16 +63,21 @@ async fn main() -> Result<()> {
 
     Builder::new()
         .format(|buf, record| {
-            writeln!(
-                buf,
-                "[{}] {} - {}",
-                record.level(),
-                Local::now().format("%Y-%m-%dT%H:%M:%S%.3f"),
-                record.args()
-            )
+            if record.args().to_string().contains("spawn_") {
+                Ok(())
+            } else {
+                writeln!(
+                    buf,
+                    "[{}] {} - {}",
+                    record.level(),
+                    Local::now().format("%Y-%m-%dT%H:%M:%S%.3f"),
+                    record.args()
+                )
+            }
         })
         .target(env_logger::Target::Pipe(target))
         .filter(None, log_level().to_level_filter())
+        .filter_module("holochain_sqlite", log::LevelFilter::Off)
         .init();
     set_wasm_level();
 
