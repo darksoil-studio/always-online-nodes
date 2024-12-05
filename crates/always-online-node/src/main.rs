@@ -103,7 +103,9 @@ async fn main() -> Result<()> {
         }
     }
 
-    let mut last_can_connect = true;
+    let mut last_can_connect = can_connect_to_signal_server(url2::url2!("{}", SIGNAL_URL))
+        .await
+        .is_ok();
     loop {
         let can_connect = can_connect_to_signal_server(url2::url2!("{}", SIGNAL_URL))
             .await
