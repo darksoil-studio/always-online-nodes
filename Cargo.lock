@@ -133,9 +133,12 @@ dependencies = [
  "clap 4.5.22",
  "holochain_runtime",
  "holochain_types",
+ "log",
+ "log2",
  "mr_bundle",
  "sha256",
  "tokio",
+ "tx5-signal",
  "url2",
 ]
 
@@ -2582,9 +2585,9 @@ dependencies = [
 
 [[package]]
 name = "holochain_client"
-version = "0.6.0-rc.0"
+version = "0.6.0-rc.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "22f3da9ce876778ca3f4d2a07b1cdedaebbf1b047f78a79df501002490c9bc0c"
+checksum = "6550726cb97e7bcef0a8685de4ae173997aa42b54e45eae8b788c6b9f8bea525"
 dependencies = [
  "again",
  "anyhow",
@@ -2767,7 +2770,7 @@ dependencies = [
 [[package]]
 name = "holochain_runtime"
 version = "0.1.0"
-source = "git+https://github.com/darksoil-studio/p2p-shipyard?branch=main-0.4#60f86e14743a8cbdbcc0dcdceddc15d111e90b63"
+source = "git+https://github.com/darksoil-studio/p2p-shipyard?branch=main-0.4#af4d177bab3a35d8771cedb15f57628acb18f22b"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -4268,6 +4271,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
 dependencies = [
  "value-bag",
+]
+
+[[package]]
+name = "log2"
+version = "0.1.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5a7d196b21fc84948f99055f1effc75e5a14fdccd31e9bf1f248d772a48dc132"
+dependencies = [
+ "chrono",
+ "colored",
+ "log",
 ]
 
 [[package]]
@@ -7165,9 +7179,9 @@ dependencies = [
 
 [[package]]
 name = "tokio-util"
-version = "0.7.12"
+version = "0.7.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "61e7c3654c13bcd040d4a03abee2c75b1d14a37b423cf5a813ceae1cc903ec6a"
+checksum = "d7fcaa8d55a2bdd6b83ace262b016eca0d79ee02818c5c1bcdf0305114081078"
 dependencies = [
  "bytes",
  "futures-core",

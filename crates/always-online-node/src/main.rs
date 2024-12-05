@@ -4,6 +4,9 @@ use holochain_runtime::*;
 use holochain_types::prelude::*;
 use mr_bundle::Location;
 use std::path::PathBuf;
+use std::sync::Arc;
+use std::time::Duration;
+use url2::Url2;
 
 const SIGNAL_URL: &'static str = "wss://sbd.holo.host";
 const BOOTSTRAP_URL: &'static str = "https://bootstrap-0.infra.holochain.org";
@@ -30,11 +33,28 @@ fn wan_network_config() -> Option<WANNetworkConfig> {
     })
 }
 
+fn log_level() -> String {
+    match std::env::var("RUST_LOG") {
+        Ok(s) => s,
+        _ => "info".into(),
+    }
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
     let args = Args::parse();
 
-    let config = HolochainRuntimeConfig::new(args.data_dir, wan_network_config());
+    let _log2 = log2::open(
+        args.data_dir
+            .join("logs.log")
+            .as_os_str()
+            .to_str()
+            .expect("Failed to get &str"),
+    )
+    .level(log_level())
+    .start();
+
+    let config = HolochainRuntimeConfig::new(args.data_dir.clone(), wan_network_config());
 
     let mut runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
     let admin_ws = runtime.admin_websocket().await?;
@@ -68,8 +88,15 @@ async fn main() -> Result<()> {
             .is_ok();
 
         if last_can_connect != can_connect {
+            if can_connect {
+                println!("Changing from LAN only to WAN only");
+            } else {
+                println!("Changing from WAN only to LAN only");
+            }
             last_can_connect = can_connect;
-            runtime.conductor_handle.shutdown().await?;
+            let result = runtime.conductor_handle.shutdown().await?;
+            result?;
+            let config = HolochainRuntimeConfig::new(args.data_dir.clone(), wan_network_config());
             runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
         }
 
