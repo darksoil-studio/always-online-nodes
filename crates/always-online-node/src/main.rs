@@ -88,6 +88,11 @@ async fn main() -> Result<()> {
         .await
         .map_err(|err| anyhow!("{err:?}"))?;
 
+    let mut app_ids: Vec<String> = installed_apps
+        .iter()
+        .map(|app| app.installed_app_id.clone())
+        .collect();
+
     for dna_bundle_path in args.dna_bundles_paths {
         let dna_bundle = DnaBundle::read_from_file(dna_bundle_path.as_path()).await?;
         let (_dna_file, dna_hash) = DnaBundle::decode(dna_bundle.encode()?.as_slice())?
@@ -104,17 +109,13 @@ async fn main() -> Result<()> {
             .is_none()
         {
             runtime
-                .install_app(app_id, happ_bundle, None, None, None)
+                .install_app(app_id.clone(), happ_bundle, None, None, None)
                 .await?;
+            app_ids.push(app_id);
 
             println!("Installed app for DNA {}", dna_hash);
         }
     }
-
-    let app_ids: Vec<String> = installed_apps
-        .into_iter()
-        .map(|app| app.installed_app_id)
-        .collect();
 
     println!("Starting always online node for DNAs {:?}", app_ids);
 
