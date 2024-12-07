@@ -15,7 +15,7 @@ use std::time::Duration;
 use url2::Url2;
 
 const SIGNAL_URL: &'static str = "wss://sbd.holo.host";
-const BOOTSTRAP_URL: &'static str = "https://bootstrap-0.infra.holochain.org";
+const BOOTSTRAP_URL: &'static str = "https://bootstrap.holo.host";
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -32,10 +32,7 @@ fn wan_network_config() -> Option<WANNetworkConfig> {
     Some(WANNetworkConfig {
         signal_url: url2::url2!("{}", SIGNAL_URL),
         bootstrap_url: url2::url2!("{}", BOOTSTRAP_URL),
-        ice_servers_urls: vec![
-            url2::url2!("stun:stun-0.main.infra.holo.host:443"),
-            url2::url2!("stun:stun-1.main.infra.holo.host:443"),
-        ],
+        ice_servers_urls: vec![],
     })
 }
 
@@ -93,8 +90,12 @@ async fn main() -> Result<()> {
 
     for dna_bundle_path in args.dna_bundles_paths {
         let dna_bundle = DnaBundle::read_from_file(dna_bundle_path.as_path()).await?;
+        let (_dna_file, dna_hash) = DnaBundle::decode(dna_bundle.encode()?.as_slice())?
+            .into_dna_file(Default::default())
+            .await?;
 
-        let app_id = app_id_for_dna_bundle(&dna_bundle)?;
+        let dna_bundle = DnaBundle::read_from_file(dna_bundle_path.as_path()).await?;
+        let app_id = DnaHashB64::from(dna_hash.clone()).to_string();
         let happ_bundle = wrap_dna_in_happ(dna_bundle).await?;
 
         if installed_apps
@@ -105,13 +106,23 @@ async fn main() -> Result<()> {
             runtime
                 .install_app(app_id, happ_bundle, None, None, None)
                 .await?;
+
+            println!("Installed app for DNA {}", dna_hash);
         }
     }
+
+    let app_ids: Vec<String> = installed_apps
+        .into_iter()
+        .map(|app| app.installed_app_id)
+        .collect();
+
+    println!("Starting always online node for DNAs {:?}", app_ids);
 
     let mut last_can_connect = can_connect_to_signal_server(url2::url2!("{}", SIGNAL_URL))
         .await
         .is_ok();
     loop {
+        println!("hey");
         let can_connect = can_connect_to_signal_server(url2::url2!("{}", SIGNAL_URL))
             .await
             .is_ok();
@@ -148,11 +159,6 @@ pub async fn can_connect_to_signal_server(signal_url: Url2) -> std::io::Result<(
     tx5_signal::SignalConnection::connect(signal_url_str, Arc::new(config)).await?;
 
     Ok(())
-}
-fn app_id_for_dna_bundle(dna_bundle: &DnaBundle) -> Result<InstalledAppId> {
-    let bytes = dna_bundle.encode()?;
-    let hash = sha256::digest(&bytes);
-    Ok(hash)
 }
 
 async fn wrap_dna_in_happ(dna_bundle: DnaBundle) -> Result<AppBundle> {
