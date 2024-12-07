@@ -122,7 +122,6 @@ async fn main() -> Result<()> {
         .await
         .is_ok();
     loop {
-        println!("hey");
         let can_connect = can_connect_to_signal_server(url2::url2!("{}", SIGNAL_URL))
             .await
             .is_ok();
