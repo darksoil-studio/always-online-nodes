@@ -39,7 +39,7 @@ jobs:
         with:
           name: darksoil-studio
 
-      - name: Build messenger-demo
+      - name: Build always-online-node
         env:
           CACHIX_AUTH_TOKEN: "${{ secrets.DARKSOIL_CACHIX_AUTH_TOKEN }}"
         run: |
@@ -48,7 +48,7 @@ jobs:
       - name: 'Setup jq'
         uses: dcarbone/install-jq-action@v2
 
-      - name: Pin messenger-demo
+      - name: Pin always-online-node
         if: github.event_name != 'pull_request'
         env:
           CACHIX_AUTH_TOKEN: "${{ secrets.DARKSOIL_CACHIX_AUTH_TOKEN }}"
