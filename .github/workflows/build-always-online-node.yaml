@@ -17,10 +17,8 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     steps:
+      - run: sudo apt-get install -y qemu-user-static
       - uses: actions/checkout@v3
-        run: sudo apt-get install -y qemu-user-static
-
-      - uses: actions/checkout@v2
 
       - name: Extend space
         if: ${{ matrix.os == 'ubuntu-latest' }}
