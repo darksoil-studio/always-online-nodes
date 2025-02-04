@@ -2,10 +2,11 @@ use anyhow::{anyhow, Result};
 use chrono::Local;
 use clap::Parser;
 use env_logger::Builder;
+use holochain_client::ZomeCallTarget;
+use holochain_conductor_api::CellInfo;
 use holochain_runtime::*;
 use holochain_types::prelude::*;
 use log::Level;
-use mr_bundle::Location;
 use std::fs::File;
 use std::io::Write;
 use std::path::PathBuf;
@@ -20,8 +21,8 @@ const BOOTSTRAP_URL: &'static str = "https://bootstrap.holo.host";
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// DNA bundles for which to maintain always online nodes
-    dna_bundles_paths: Vec<PathBuf>,
+    /// hApp bundles for which to maintain always online nodes
+    happ_bundles_paths: Vec<PathBuf>,
 
     /// Directory to store all holochain data
     #[arg(long)]
@@ -93,27 +94,55 @@ async fn main() -> Result<()> {
         .map(|app| app.installed_app_id.clone())
         .collect();
 
-    for dna_bundle_path in args.dna_bundles_paths {
-        let dna_bundle = DnaBundle::read_from_file(dna_bundle_path.as_path()).await?;
-        let (_dna_file, dna_hash) = DnaBundle::decode(dna_bundle.encode()?.as_slice())?
-            .into_dna_file(Default::default())
-            .await?;
+    for happ_bundle_path in args.happ_bundles_paths {
+        let happ_bundle = read_from_file(&happ_bundle_path).await?;
 
-        let dna_bundle = DnaBundle::read_from_file(dna_bundle_path.as_path()).await?;
-        let app_id = DnaHashB64::from(dna_hash.clone()).to_string();
-        let happ_bundle = wrap_dna_in_happ(dna_bundle).await?;
+        let app_id = happ_bundle.manifest().app_name().to_string();
 
         if installed_apps
             .iter()
             .find(|app| app.installed_app_id.eq(&app_id))
             .is_none()
         {
-            runtime
+            let app_info = runtime
                 .install_app(app_id.clone(), happ_bundle, None, None, None)
                 .await?;
-            app_ids.push(app_id);
+            let app_ws = runtime
+                .app_websocket(
+                    app_id.clone(),
+                    holochain_types::websocket::AllowedOrigins::Any,
+                )
+                .await?;
 
-            println!("Installed app for DNA {}", dna_hash);
+            for (_role, cell_infos) in app_info.cell_info {
+                for cell_info in cell_infos {
+                    let Some(cell_id) = cell_id(&cell_info) else {
+                        continue;
+                    };
+                    let dna_def = admin_ws
+                        .get_dna_definition(cell_id.dna_hash().clone())
+                        .await
+                        .map_err(|err| anyhow!("{err:?}"))?;
+
+                    let Some(first_zome) = dna_def.coordinator_zomes.first() else {
+                        continue;
+                    };
+
+                    app_ws
+                        .call_zome(
+                            ZomeCallTarget::CellId(cell_id),
+                            first_zome.0.clone(),
+                            "init".into(),
+                            ExternIO::encode(())?,
+                        )
+                        .await
+                        .map_err(|err| anyhow!("{:?}", err))?;
+                }
+            }
+
+            app_ids.push(app_id.clone());
+
+            println!("Installed app for hApp {}", app_id);
         }
     }
 
@@ -144,6 +173,21 @@ async fn main() -> Result<()> {
     }
 }
 
+async fn read_from_file(happ_bundle_path: &PathBuf) -> Result<AppBundle> {
+    mr_bundle::Bundle::read_from_file(happ_bundle_path)
+        .await
+        .map(Into::into)
+        .map_err(Into::into)
+}
+
+fn cell_id(cell_info: &CellInfo) -> Option<CellId> {
+    match cell_info {
+        CellInfo::Provisioned(provisioned) => Some(provisioned.cell_id.clone()),
+        CellInfo::Cloned(cloned) => Some(cloned.cell_id.clone()),
+        CellInfo::Stem(_) => None,
+    }
+}
+
 pub async fn can_connect_to_signal_server(signal_url: Url2) -> std::io::Result<()> {
     let config = tx5_signal::SignalConfig {
         listener: false,
@@ -159,31 +203,4 @@ pub async fn can_connect_to_signal_server(signal_url: Url2) -> std::io::Result<(
     tx5_signal::SignalConnection::connect(signal_url_str, Arc::new(config)).await?;
 
     Ok(())
-}
-
-async fn wrap_dna_in_happ(dna_bundle: DnaBundle) -> Result<AppBundle> {
-    let role_manifest = AppRoleManifest {
-        name: String::from("dna"),
-        provisioning: Some(CellProvisioning::Create { deferred: false }),
-        dna: AppRoleDnaManifest {
-            location: Some(Location::Bundled(PathBuf::from("dna.dna"))),
-            modifiers: Default::default(),
-            installed_hash: None,
-            clone_limit: 0,
-        },
-    };
-    let app_manifest = AppManifest::V1(AppManifestV1 {
-        name: String::from(""),
-        description: None,
-        roles: vec![role_manifest],
-        allow_deferred_memproofs: false,
-    });
-
-    let app_bundle = AppBundle::new(
-        app_manifest,
-        vec![(PathBuf::from("dna.dna"), dna_bundle)],
-        PathBuf::from(""),
-    )
-    .await?;
-    Ok(app_bundle)
 }

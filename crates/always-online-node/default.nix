@@ -23,14 +23,14 @@
       version = cargoToml.package.version;
     });
 
-    builders.aon-for-dna = { dna_bundle }:
-      pkgs.runCommandLocal "aon-for-${dna_bundle}" {
+    builders.aon-for-happ = { happ_bundle }:
+      pkgs.runCommandLocal "aon-for-${happ_bundle}" {
         buildInputs = [ pkgs.makeWrapper ];
       } ''
         mkdir $out
         mkdir $out/bin
         makeWrapper ${packages.always-online-node}/bin/always-online-node $out/bin/always-online-node \
-          --add-flags "${dna_bundle}"
+          --add-flags "${happ_bundle}"
       '';
 
   };

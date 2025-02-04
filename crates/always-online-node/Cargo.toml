@@ -5,11 +5,13 @@ edition = "2021"
 
 [dependencies]
 holochain_runtime = { git = "https://github.com/darksoil-studio/p2p-shipyard", branch = "main-0.4" }
+holochain_client = "0.6.0"
+holochain_conductor_api = "0.4.1"
 anyhow = "1"
 clap = {version = "4.5.4", features = [ "derive" ] }
 tokio = { version = "1", features = [ "full" ] } 
-holochain_types = "0.4.0-rc"
-mr_bundle = "0.4.0-rc"
+holochain_types = "0.4.1"
+mr_bundle = "0.4.1"
 sha256 = "1"
 url2 = "0.0.6"
 tx5-signal = "0.1.5-beta"
