@@ -27,6 +27,10 @@ struct Args {
     /// Directory to store all holochain data
     #[arg(long)]
     data_dir: PathBuf,
+
+    /// Directory to store all holochain data
+    #[arg(long)]
+    lan_only: bool,
 }
 
 fn wan_network_config() -> Option<WANNetworkConfig> {
@@ -79,7 +83,12 @@ async fn main() -> Result<()> {
         .init();
     set_wasm_level();
 
-    let config = HolochainRuntimeConfig::new(args.data_dir.clone(), wan_network_config());
+    let wan_config = match args.lan_only {
+        true => None,
+        false => wan_network_config(),
+    };
+
+    let config = HolochainRuntimeConfig::new(args.data_dir.clone(), wan_config);
 
     let mut runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
     let admin_ws = runtime.admin_websocket().await?;
@@ -165,7 +174,11 @@ async fn main() -> Result<()> {
             last_can_connect = can_connect;
             let result = runtime.conductor_handle.shutdown().await?;
             result?;
-            let config = HolochainRuntimeConfig::new(args.data_dir.clone(), wan_network_config());
+            let wan_config = match args.lan_only {
+                true => None,
+                false => wan_network_config(),
+            };
+            let config = HolochainRuntimeConfig::new(args.data_dir.clone(), wan_config);
             runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
         }
 
