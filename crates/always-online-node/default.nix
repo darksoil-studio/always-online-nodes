@@ -24,7 +24,7 @@
     });
 
     builders.aon-for-happ = { happ_bundle }:
-      pkgs.runCommandLocal "aon-for-${happ_bundle}" {
+      pkgs.runCommandLocal "aon-for-happ" {
         buildInputs = [ pkgs.makeWrapper ];
       } ''
         mkdir $out
