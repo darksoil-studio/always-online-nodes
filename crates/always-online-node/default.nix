@@ -24,7 +24,7 @@
     });
 
     builders.aon-for-happ = { happ_bundle }:
-      pkgs.runCommandLocal "aon-for-happ" {
+      pkgs.runCommandLocal "always-online-node" {
         buildInputs = [ pkgs.makeWrapper ];
       } ''
         mkdir $out
