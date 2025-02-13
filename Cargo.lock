@@ -2724,7 +2724,7 @@ dependencies = [
 [[package]]
 name = "holochain_runtime"
 version = "0.1.0"
-source = "git+https://github.com/darksoil-studio/p2p-shipyard?branch=main-0.4#2f405567dea442b77682dbe8d34e4c6f20d88a6a"
+source = "git+https://github.com/darksoil-studio/p2p-shipyard?branch=main-0.4#cc95fbb1ba386d04588dc821c36c5bed39a4a4ec"
 dependencies = [
  "anyhow",
  "arbitrary",
