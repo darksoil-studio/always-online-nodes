@@ -61,7 +61,16 @@ fn set_wasm_level() {
 async fn main() -> Result<()> {
     let args = Args::parse();
 
-    let target = Box::new(File::create(args.data_dir.join("logs.log")).expect("Can't create file"));
+    let data_dir = args.data_dir;
+    if data_dir.exists() {
+        if !std::fs::read_dir(&data_dir).is_ok() {
+            return Err(anyhow!("The given data dir is not a directory."));
+        };
+    } else {
+        std::fs::create_dir_all(data_dir.clone())?;
+    }
+
+    let target = Box::new(File::create(data_dir.join("logs.log")).expect("Can't create file"));
 
     Builder::new()
         .format(|buf, record| {
@@ -88,7 +97,7 @@ async fn main() -> Result<()> {
         false => wan_network_config(),
     };
 
-    let config = HolochainRuntimeConfig::new(args.data_dir.clone(), wan_config);
+    let config = HolochainRuntimeConfig::new(data_dir.clone(), wan_config);
 
     let mut runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
     let admin_ws = runtime.admin_websocket().await?;
@@ -151,15 +160,18 @@ async fn main() -> Result<()> {
 
             app_ids.push(app_id.clone());
 
-            println!("Installed app for hApp {}", app_id);
+            log::info!("Installed app for hApp {}", app_id);
         }
     }
 
-    println!("Starting always online node for DNAs {:?}", app_ids);
+    log::info!("Starting always online node for DNAs {:?}", app_ids);
 
     let mut last_can_connect = can_connect_to_signal_server(url2::url2!("{}", SIGNAL_URL))
         .await
         .is_ok();
+
+    let mut last_boot_time = std::time::SystemTime::now();
+
     loop {
         let can_connect = can_connect_to_signal_server(url2::url2!("{}", SIGNAL_URL))
             .await
@@ -167,9 +179,9 @@ async fn main() -> Result<()> {
 
         if last_can_connect != can_connect {
             if can_connect {
-                println!("Changing from LAN only to WAN only");
+                log::warn!("Changing from LAN only to WAN only");
             } else {
-                println!("Changing from WAN only to LAN only");
+                log::warn!("Changing from WAN only to LAN only");
             }
             last_can_connect = can_connect;
             let result = runtime.conductor_handle.shutdown().await?;
@@ -178,11 +190,28 @@ async fn main() -> Result<()> {
                 true => None,
                 false => wan_network_config(),
             };
-            let config = HolochainRuntimeConfig::new(args.data_dir.clone(), wan_config);
+            let config = HolochainRuntimeConfig::new(data_dir.clone(), wan_config);
             runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
         }
 
-        std::thread::sleep(Duration::from_secs(5));
+        // Reboot every 30 mins
+        let now = std::time::SystemTime::now();
+        if last_boot_time.elapsed()? > Duration::from_secs(30 * 60) {
+            log::info!("Performing scheduled reboot every 30 mins.");
+
+            last_boot_time = now;
+
+            let result = runtime.conductor_handle.shutdown().await?;
+            result?;
+            let wan_config = match args.lan_only {
+                true => None,
+                false => wan_network_config(),
+            };
+            let config = HolochainRuntimeConfig::new(data_dir.clone(), wan_config);
+            runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
+        }
+
+        std::thread::sleep(Duration::from_secs(30));
     }
 }
 
