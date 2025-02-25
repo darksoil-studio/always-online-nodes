@@ -61,6 +61,14 @@ fn set_wasm_level() {
 async fn main() -> Result<()> {
     let args = Args::parse();
 
+    Builder::new()
+        .target(env_logger::Target::Stdout)
+        .filter(None, log_level().to_level_filter())
+        .filter_module("holochain_sqlite", log::LevelFilter::Off)
+        .filter_module("tracing::span", log::LevelFilter::Off)
+        .init();
+    set_wasm_level();
+
     let data_dir = args.data_dir;
     if data_dir.exists() {
         if !std::fs::read_dir(&data_dir).is_ok() {
@@ -69,28 +77,6 @@ async fn main() -> Result<()> {
     } else {
         std::fs::create_dir_all(data_dir.clone())?;
     }
-
-    let target = Box::new(File::create(data_dir.join("logs.log")).expect("Can't create file"));
-
-    Builder::new()
-        .format(|buf, record| {
-            if record.args().to_string().contains("spawn_") {
-                Ok(())
-            } else {
-                writeln!(
-                    buf,
-                    "[{}] {} - {}",
-                    record.level(),
-                    Local::now().format("%Y-%m-%dT%H:%M:%S%.3f"),
-                    record.args()
-                )
-            }
-        })
-        .target(env_logger::Target::Pipe(target))
-        .filter(None, log_level().to_level_filter())
-        .filter_module("holochain_sqlite", log::LevelFilter::Off)
-        .init();
-    set_wasm_level();
 
     let wan_config = match args.lan_only {
         true => None,
@@ -170,8 +156,6 @@ async fn main() -> Result<()> {
         .await
         .is_ok();
 
-    let mut last_boot_time = std::time::SystemTime::now();
-
     loop {
         let can_connect = can_connect_to_signal_server(url2::url2!("{}", SIGNAL_URL))
             .await
@@ -184,23 +168,6 @@ async fn main() -> Result<()> {
                 log::warn!("Changing from WAN only to LAN only");
             }
             last_can_connect = can_connect;
-            let result = runtime.conductor_handle.shutdown().await?;
-            result?;
-            let wan_config = match args.lan_only {
-                true => None,
-                false => wan_network_config(),
-            };
-            let config = HolochainRuntimeConfig::new(data_dir.clone(), wan_config);
-            runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
-        }
-
-        // Reboot every 30 mins
-        let now = std::time::SystemTime::now();
-        if last_boot_time.elapsed()? > Duration::from_secs(30 * 60) {
-            log::info!("Performing scheduled reboot every 30 mins.");
-
-            last_boot_time = now;
-
             let result = runtime.conductor_handle.shutdown().await?;
             result?;
             let wan_config = match args.lan_only {
