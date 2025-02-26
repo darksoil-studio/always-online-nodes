@@ -23,15 +23,28 @@
       version = cargoToml.package.version;
     });
 
-    builders.aon-for-happ = { happ_bundle }:
+    builders.aon-for-happs = { happs }:
       pkgs.runCommandLocal "always-online-node" {
         buildInputs = [ pkgs.makeWrapper ];
       } ''
         mkdir $out
         mkdir $out/bin
         makeWrapper ${packages.always-online-node}/bin/always-online-node $out/bin/always-online-node \
-          --add-flags "${happ_bundle}"
+          --add-flags "${lib.strings.concatStringsSep " " happs}"
       '';
 
+    checks.aon-for-happs = let
+      happ = inputs.tnesh-stack.outputs.builders.${system}.happ {
+        happManifest = builtins.toFile "happ.yaml" ''
+          manifest_version: '1'
+          name: happ-store
+          description: null
+          roles: []
+          allow_deferred_memproofs: false
+        '';
+        dnas = { };
+      };
+
+    in builders.aon-for-happs { happs = [ happ ]; };
   };
 }

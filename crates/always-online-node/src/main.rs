@@ -1,5 +1,4 @@
 use anyhow::{anyhow, Result};
-use chrono::Local;
 use clap::Parser;
 use env_logger::Builder;
 use holochain_client::ZomeCallTarget;
@@ -7,7 +6,6 @@ use holochain_conductor_api::CellInfo;
 use holochain_runtime::*;
 use holochain_types::prelude::*;
 use log::Level;
-use std::fs::File;
 use std::io::Write;
 use std::path::PathBuf;
 use std::str::FromStr;
@@ -62,6 +60,7 @@ async fn main() -> Result<()> {
     let args = Args::parse();
 
     Builder::new()
+        .format(|buf, record| writeln!(buf, "[{}] {}", record.level(), record.args()))
         .target(env_logger::Target::Stdout)
         .filter(None, log_level().to_level_filter())
         .filter_module("holochain_sqlite", log::LevelFilter::Off)

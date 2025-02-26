@@ -9,7 +9,6 @@
     flake-parts.follows = "holonix/flake-parts";
 
     tnesh-stack.url = "github:darksoil-studio/tnesh-stack/main-0.4";
-
   };
 
   nixConfig = {
@@ -37,7 +36,6 @@
             inputs'.holonix.devShells.default
             inputs'.tnesh-stack.devShells.holochainDev
           ];
-          packages = [ ];
         };
       };
     };
