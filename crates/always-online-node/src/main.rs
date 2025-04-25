@@ -13,9 +13,6 @@ use std::sync::Arc;
 use std::time::Duration;
 use url2::Url2;
 
-const SIGNAL_URL: &'static str = "wss://sbd.holo.host";
-const BOOTSTRAP_URL: &'static str = "https://bootstrap.holo.host";
-
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
@@ -31,12 +28,12 @@ struct Args {
     lan_only: bool,
 }
 
-fn wan_network_config() -> Option<WANNetworkConfig> {
-    Some(WANNetworkConfig {
-        signal_url: url2::url2!("{}", SIGNAL_URL),
-        bootstrap_url: url2::url2!("{}", BOOTSTRAP_URL),
-        ice_servers_urls: vec![],
-    })
+fn network_config() -> NetworkConfig {
+    let mut config = NetworkConfig::default();
+
+    // TODO: change dht storage arc factor?
+
+    config
 }
 
 fn log_level() -> Level {
@@ -77,14 +74,9 @@ async fn main() -> Result<()> {
         std::fs::create_dir_all(data_dir.clone())?;
     }
 
-    let wan_config = match args.lan_only {
-        true => None,
-        false => wan_network_config(),
-    };
+    let config = HolochainRuntimeConfig::new(data_dir.clone(), network_config());
 
-    let config = HolochainRuntimeConfig::new(data_dir.clone(), wan_config);
-
-    let mut runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
+    let mut runtime = HolochainRuntime::launch(vec_to_locked(vec![]), config).await?;
     let admin_ws = runtime.admin_websocket().await?;
 
     let installed_apps = admin_ws
@@ -151,12 +143,12 @@ async fn main() -> Result<()> {
 
     log::info!("Starting always online node for DNAs {:?}", app_ids);
 
-    let mut last_can_connect = can_connect_to_signal_server(url2::url2!("{}", SIGNAL_URL))
+    let mut last_can_connect = can_connect_to_signal_server(network_config().signal_url)
         .await
         .is_ok();
 
     loop {
-        let can_connect = can_connect_to_signal_server(url2::url2!("{}", SIGNAL_URL))
+        let can_connect = can_connect_to_signal_server(network_config().signal_url)
             .await
             .is_ok();
 
@@ -169,12 +161,8 @@ async fn main() -> Result<()> {
             last_can_connect = can_connect;
             let result = runtime.conductor_handle.shutdown().await?;
             result?;
-            let wan_config = match args.lan_only {
-                true => None,
-                false => wan_network_config(),
-            };
-            let config = HolochainRuntimeConfig::new(data_dir.clone(), wan_config);
-            runtime = HolochainRuntime::launch(vec_to_locked(vec![])?, config).await?;
+            let config = HolochainRuntimeConfig::new(data_dir.clone(), network_config());
+            runtime = HolochainRuntime::launch(vec_to_locked(vec![]), config).await?;
         }
 
         std::thread::sleep(Duration::from_secs(30));

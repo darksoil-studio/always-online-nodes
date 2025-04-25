@@ -9,9 +9,6 @@ members = ["crates/*"]
 resolver = "2"
 
 [workspace.dependencies]
-hdi = "0.5.1"
-hdk = { version = "0.4.1", features = [ "unstable-functions" ] }
+hdi = "0.6"
+hdk = { version = "0.5", features = [ "unstable-functions" ] }
 serde = "1"
-
-[patch.crates-io]
-libmdns = { git = "https://github.com/guillemcordoba/libmdns", branch = "main" }

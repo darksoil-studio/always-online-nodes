@@ -11,14 +11,10 @@ jobs:
   build-always-online-node:
     strategy:
       matrix:
-        # os: [ubuntu-22.04, ubuntu-22.40, macos-latest, macos-13]
-        os: [ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-22.04-arm, macos-latest, macos-13]
 
     runs-on: ${{ matrix.os }}
     steps:
-      - run: sudo apt-get install -y qemu-user-static
-      - uses: actions/checkout@v3
-
       - name: Extend space
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: ./.github/actions/extend-space
@@ -27,9 +23,7 @@ jobs:
         uses: cachix/install-nix-action@v27
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-          nix_path: nixpkgs=channel:nixos-24.05
-          extra_nix_config: |
-            system = aarch64-linux
+          nix_path: nixpkgs=channel:nixos-24.11
 
       - uses: cachix/cachix-action@v15
         with:

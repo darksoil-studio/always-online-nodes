@@ -2,13 +2,14 @@
   description = "Template for Holochain app development";
 
   inputs = {
-    holonix.url = "github:holochain/holonix/main-0.4";
+    holonix.url = "github:holochain/holonix/main-0.5";
     crane.follows = "holonix/crane";
 
     nixpkgs.follows = "holonix/nixpkgs";
     flake-parts.follows = "holonix/flake-parts";
 
-    tnesh-stack.url = "github:darksoil-studio/tnesh-stack/main-0.4";
+    holochain-nix-builders.url =
+      "github:darksoil-studio/holochain-nix-builders/main-0.5";
   };
 
   nixConfig = {
@@ -25,7 +26,7 @@
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        inputs.tnesh-stack.outputs.flakeModules.builders
+        inputs.holochain-nix-builders.outputs.flakeModules.builders
         ./crates/always-online-node/default.nix
       ];
 
@@ -34,7 +35,7 @@
         devShells.default = pkgs.mkShell {
           inputsFrom = [
             inputs'.holonix.devShells.default
-            inputs'.tnesh-stack.devShells.holochainDev
+            inputs'.holochain-nix-builders.devShells.holochainDev
           ];
         };
       };
