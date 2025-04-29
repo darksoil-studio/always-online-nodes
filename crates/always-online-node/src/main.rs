@@ -26,12 +26,22 @@ struct Args {
     /// Directory to store all holochain data
     #[arg(long)]
     lan_only: bool,
+
+    #[arg(long)]
+    bootstrap_url: String,
+
+    #[arg(long)]
+    signal_url: String,
 }
 
-fn network_config() -> NetworkConfig {
+fn network_config(bootstrap_url: Url2, signal_url: Url2) -> NetworkConfig {
     let mut config = NetworkConfig::default();
 
+    config.bootstrap_url = bootstrap_url;
+    config.signal_url = signal_url;
+
     // TODO: change dht storage arc factor?
+    config.target_arc_factor = u32::MAX;
 
     config
 }
@@ -74,7 +84,12 @@ async fn main() -> Result<()> {
         std::fs::create_dir_all(data_dir.clone())?;
     }
 
-    let config = HolochainRuntimeConfig::new(data_dir.clone(), network_config());
+    let network_config = network_config(
+        Url2::parse(args.bootstrap_url),
+        Url2::parse(args.signal_url),
+    );
+
+    let config = HolochainRuntimeConfig::new(data_dir.clone(), network_config.clone());
 
     let mut runtime = HolochainRuntime::launch(vec_to_locked(vec![]), config).await?;
     let admin_ws = runtime.admin_websocket().await?;
@@ -143,12 +158,12 @@ async fn main() -> Result<()> {
 
     log::info!("Starting always online node for DNAs {:?}", app_ids);
 
-    let mut last_can_connect = can_connect_to_signal_server(network_config().signal_url)
+    let mut last_can_connect = can_connect_to_signal_server(network_config.signal_url.clone())
         .await
         .is_ok();
 
     loop {
-        let can_connect = can_connect_to_signal_server(network_config().signal_url)
+        let can_connect = can_connect_to_signal_server(network_config.signal_url.clone())
             .await
             .is_ok();
 
@@ -161,7 +176,7 @@ async fn main() -> Result<()> {
             last_can_connect = can_connect;
             let result = runtime.conductor_handle.shutdown().await?;
             result?;
-            let config = HolochainRuntimeConfig::new(data_dir.clone(), network_config());
+            let config = HolochainRuntimeConfig::new(data_dir.clone(), network_config.clone());
             runtime = HolochainRuntime::launch(vec_to_locked(vec![]), config).await?;
         }
 
