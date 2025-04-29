@@ -41,6 +41,7 @@ jobs:
           CACHIX_AUTH_TOKEN: "${{ secrets.DARKSOIL_CACHIX_AUTH_TOKEN }}"
         run: |
           cachix watch-exec darksoil-studio -- nix build -L --accept-flake-config --no-update-lock-file .#always-online-node
+          cachix push darksoil-studio $(nix path-info --json --accept-flake-config --no-warn-dirty .#always-online-node | jq -r 'keys[0]')
 
       - name: 'Setup jq'
         uses: dcarbone/install-jq-action@v2
