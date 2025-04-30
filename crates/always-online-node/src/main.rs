@@ -37,7 +37,7 @@ fn network_config(bootstrap_url: Url2, signal_url: Url2) -> NetworkConfig {
     config.signal_url = signal_url;
 
     // TODO: change dht storage arc factor?
-    config.target_arc_factor = u32::MAX;
+    // config.target_arc_factor = u32::MAX;
 
     config
 }
