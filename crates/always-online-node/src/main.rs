@@ -23,15 +23,11 @@ struct Args {
     #[arg(long)]
     data_dir: PathBuf,
 
-    /// Directory to store all holochain data
     #[arg(long)]
-    lan_only: bool,
+    bootstrap_url: Option<String>,
 
     #[arg(long)]
-    bootstrap_url: String,
-
-    #[arg(long)]
-    signal_url: String,
+    signal_url: Option<String>,
 }
 
 fn network_config(bootstrap_url: Url2, signal_url: Url2) -> NetworkConfig {
@@ -85,8 +81,8 @@ async fn main() -> Result<()> {
     }
 
     let network_config = network_config(
-        Url2::parse(args.bootstrap_url),
-        Url2::parse(args.signal_url),
+        Url2::parse(args.bootstrap_url.unwrap_or("http://0.0.0.0:8888".into())),
+        Url2::parse(args.signal_url.unwrap_or("ws://0.0.0.0:8888".into())),
     );
 
     let config = HolochainRuntimeConfig::new(data_dir.clone(), network_config.clone());
