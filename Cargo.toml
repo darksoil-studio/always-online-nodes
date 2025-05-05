@@ -12,3 +12,6 @@ resolver = "2"
 hdi = "0.6"
 hdk = { version = "0.5", features = [ "unstable-functions" ] }
 serde = "1"
+
+[patch.crates-io]
+kitsune2_transport_tx5 = { git = "https://github.com/guillemcordoba/kitsune2", branch = "go-pion" }
