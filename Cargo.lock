@@ -4157,7 +4157,7 @@ dependencies = [
 [[package]]
 name = "kitsune2"
 version = "0.1.8"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#01c4480de5a67850ac047fbdac132d4a86eee6ec"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#2e381c2a83ee2701129f0273a32032a7eddd89dd"
 dependencies = [
  "bytes",
  "kitsune2_api",
@@ -4169,7 +4169,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_api"
 version = "0.1.8"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#01c4480de5a67850ac047fbdac132d4a86eee6ec"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#2e381c2a83ee2701129f0273a32032a7eddd89dd"
 dependencies = [
  "base64 0.22.1",
  "bytes",
@@ -4185,7 +4185,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_bootstrap_client"
 version = "0.1.8"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#01c4480de5a67850ac047fbdac132d4a86eee6ec"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#2e381c2a83ee2701129f0273a32032a7eddd89dd"
 dependencies = [
  "base64 0.22.1",
  "kitsune2_api",
@@ -4197,7 +4197,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_core"
 version = "0.1.8"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#01c4480de5a67850ac047fbdac132d4a86eee6ec"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#2e381c2a83ee2701129f0273a32032a7eddd89dd"
 dependencies = [
  "backon",
  "bytes",
@@ -4218,7 +4218,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_dht"
 version = "0.1.8"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#01c4480de5a67850ac047fbdac132d4a86eee6ec"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#2e381c2a83ee2701129f0273a32032a7eddd89dd"
 dependencies = [
  "bytes",
  "kitsune2_api",
@@ -4228,7 +4228,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_gossip"
 version = "0.1.8"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#01c4480de5a67850ac047fbdac132d4a86eee6ec"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#2e381c2a83ee2701129f0273a32032a7eddd89dd"
 dependencies = [
  "backon",
  "bytes",
@@ -4247,7 +4247,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_transport_iroh"
 version = "0.1.8"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#01c4480de5a67850ac047fbdac132d4a86eee6ec"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#2e381c2a83ee2701129f0273a32032a7eddd89dd"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -4616,9 +4616,9 @@ dependencies = [
 
 [[package]]
 name = "memchr"
-version = "2.7.4"
+version = "2.7.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "78ca9ab1a0babb1e7d5695e3530886289c18cf2f87ec19a575a0abdce112e3a3"
+checksum = "32a282da65faaf38286cf3be983213fcf1d2e2a58700e808f83f4ea9a4804bc0"
 
 [[package]]
 name = "memmap2"
