@@ -9,8 +9,6 @@ use log::Level;
 use std::io::Write;
 use std::path::PathBuf;
 use std::str::FromStr;
-use std::sync::Arc;
-use std::time::Duration;
 use url2::Url2;
 
 #[derive(Parser, Debug)]
@@ -88,7 +86,7 @@ async fn main() -> Result<()> {
 
     let config = HolochainRuntimeConfig::new(data_dir.clone(), network_config.clone());
 
-    let mut runtime = HolochainRuntime::launch(vec_to_locked(vec![]), config).await?;
+    let runtime = HolochainRuntime::launch(vec_to_locked(vec![]), config).await?;
     let admin_ws = runtime.admin_websocket().await?;
 
     let installed_apps = admin_ws
@@ -155,30 +153,16 @@ async fn main() -> Result<()> {
 
     log::info!("Starting always online node for DNAs {:?}", app_ids);
 
-    let mut last_can_connect = can_connect_to_signal_server(network_config.signal_url.clone())
+    // wait for a unix signal or ctrl-c instruction to
+    tokio::signal::ctrl_c()
         .await
-        .is_ok();
+        .unwrap_or_else(|e| log::error!("Could not handle termination signal: {:?}", e));
+    log::info!("Gracefully shutting down conductor...");
 
-    loop {
-        let can_connect = can_connect_to_signal_server(network_config.signal_url.clone())
-            .await
-            .is_ok();
+    // shutdown holochain
+    runtime.conductor_handle.shutdown().await??;
 
-        if last_can_connect != can_connect {
-            if can_connect {
-                log::warn!("Changing from LAN only to WAN only");
-            } else {
-                log::warn!("Changing from WAN only to LAN only");
-            }
-            last_can_connect = can_connect;
-            let result = runtime.conductor_handle.shutdown().await?;
-            result?;
-            let config = HolochainRuntimeConfig::new(data_dir.clone(), network_config.clone());
-            runtime = HolochainRuntime::launch(vec_to_locked(vec![]), config).await?;
-        }
-
-        std::thread::sleep(Duration::from_secs(30));
-    }
+    Ok(())
 }
 
 async fn read_from_file(happ_bundle_path: &PathBuf) -> Result<AppBundle> {
@@ -194,21 +178,4 @@ fn cell_id(cell_info: &CellInfo) -> Option<CellId> {
         CellInfo::Cloned(cloned) => Some(cloned.cell_id.clone()),
         CellInfo::Stem(_) => None,
     }
-}
-
-pub async fn can_connect_to_signal_server(signal_url: Url2) -> std::io::Result<()> {
-    let config = tx5_signal::SignalConfig {
-        listener: false,
-        allow_plain_text: true,
-        ..Default::default()
-    };
-    let signal_url_str = if let Some(s) = signal_url.as_str().strip_suffix('/') {
-        s
-    } else {
-        signal_url.as_str()
-    };
-
-    tx5_signal::SignalConnection::connect(signal_url_str, Arc::new(config)).await?;
-
-    Ok(())
 }
