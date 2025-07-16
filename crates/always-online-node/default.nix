@@ -5,7 +5,7 @@
 
     packages.always-online-node = let
       craneLib = (inputs.crane.mkLib pkgs).overrideToolchain
-        inputs'.holonix.packages.rust;
+        inputs.holochain-utils.inputs.holonix.outputs.packages.${system}.rust;
 
       cratePath = ./.;
 
