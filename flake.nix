@@ -2,14 +2,9 @@
   description = "Template for Holochain app development";
 
   inputs = {
-    holonix.url = "github:holochain/holonix/main-0.5";
-    crane.follows = "holonix/crane";
-
-    nixpkgs.follows = "holonix/nixpkgs";
-    flake-parts.follows = "holonix/flake-parts";
-
     holochain-utils.url = "github:darksoil-studio/holochain-utils/main-0.5";
-    holochain-utils.inputs.holonix.follows = "holonix";
+    crane.follows = "holochain-utils/crane";
+    nixpkgs.follows = "holochain-utils/nixpkgs";
   };
 
   nixConfig = {
@@ -24,17 +19,20 @@
   };
 
   outputs = inputs:
-    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+    inputs.holochain-utils.inputs.holonix.inputs.flake-parts.lib.mkFlake {
+      inherit inputs;
+    } {
       imports = [
         inputs.holochain-utils.outputs.flakeModules.builders
         ./crates/always-online-node/default.nix
       ];
 
-      systems = builtins.attrNames inputs.holonix.devShells;
+      systems =
+        builtins.attrNames inputs.holochain-utils.inputs.holonix.devShells;
       perSystem = { inputs', config, pkgs, system, ... }: {
         devShells.default = pkgs.mkShell {
           inputsFrom = [
-            inputs'.holonix.devShells.default
+            inputs'.holochain-utils.devShells.default
             inputs'.holochain-utils.devShells.holochainDev
           ];
         };
