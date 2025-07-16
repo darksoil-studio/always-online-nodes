@@ -8,8 +8,8 @@
     nixpkgs.follows = "holonix/nixpkgs";
     flake-parts.follows = "holonix/flake-parts";
 
-    holochain-nix-builders.url =
-      "github:darksoil-studio/holochain-nix-builders/main-0.5";
+    holochain-utils.url = "github:darksoil-studio/holochain-utils/main-0.5";
+    holochain-utils.inputs.holonix.follows = "holonix";
   };
 
   nixConfig = {
@@ -26,7 +26,7 @@
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
-        inputs.holochain-nix-builders.outputs.flakeModules.builders
+        inputs.holochain-utils.outputs.flakeModules.builders
         ./crates/always-online-node/default.nix
       ];
 
@@ -35,7 +35,7 @@
         devShells.default = pkgs.mkShell {
           inputsFrom = [
             inputs'.holonix.devShells.default
-            inputs'.holochain-nix-builders.devShells.holochainDev
+            inputs'.holochain-utils.devShells.holochainDev
           ];
         };
       };

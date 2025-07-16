@@ -28,11 +28,15 @@ struct Args {
     signal_url: Option<String>,
 }
 
-fn network_config(bootstrap_url: Url2, signal_url: Url2) -> NetworkConfig {
+fn network_config(bootstrap_url: Option<Url2>, signal_url: Option<Url2>) -> NetworkConfig {
     let mut config = NetworkConfig::default();
 
-    config.bootstrap_url = bootstrap_url;
-    config.signal_url = signal_url;
+    if let Some(bootstrap_url) = bootstrap_url {
+        config.bootstrap_url = bootstrap_url;
+    }
+    if let Some(signal_url) = signal_url {
+        config.signal_url = signal_url;
+    }
 
     // TODO: change dht storage arc factor?
     // config.target_arc_factor = u32::MAX;
@@ -80,8 +84,8 @@ async fn main() -> Result<()> {
     }
 
     let network_config = network_config(
-        Url2::parse(args.bootstrap_url.unwrap_or("http://0.0.0.0:8888".into())),
-        Url2::parse(args.signal_url.unwrap_or("ws://0.0.0.0:8888".into())),
+        args.bootstrap_url.map(Url2::parse),
+        args.signal_url.map(Url2::parse),
     );
 
     let config = HolochainRuntimeConfig::new(data_dir.clone(), network_config.clone());

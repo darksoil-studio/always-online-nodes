@@ -17,7 +17,7 @@
         src = craneLib.cleanCargoSource (craneLib.path self.outPath);
         doCheck = false;
         buildInputs =
-          inputs.holochain-nix-builders.outputs.dependencies.${system}.holochain.buildInputs;
+          inputs.holochain-utils.outputs.dependencies.${system}.holochain.buildInputs;
 
         # Make sure libdatachannel can find C++ standard libraries from clang.
         LIBCLANG_PATH = "${pkgs.llvmPackages_18.libclang.lib}/lib";
@@ -38,7 +38,7 @@
       '';
 
     checks.aon-for-happs = let
-      happ = inputs.holochain-nix-builders.outputs.builders.${system}.happ {
+      happ = inputs.holochain-utils.outputs.builders.${system}.happ {
         happManifest = builtins.toFile "happ.yaml" ''
           manifest_version: '1'
           name: happ-store
