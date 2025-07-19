@@ -273,9 +273,9 @@ dependencies = [
 
 [[package]]
 name = "async-io"
-version = "2.4.1"
+version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1237c0ae75a0f3765f58910ff9cdd0a12eeb39ab2f4c7de23262f337f0aacbb3"
+checksum = "19634d6336019ef220f09fd31168ce5c184b295cbf80345437cc36094ef223ca"
 dependencies = [
  "async-lock",
  "cfg-if 1.0.1",
@@ -286,8 +286,7 @@ dependencies = [
  "polling",
  "rustix 1.0.8",
  "slab",
- "tracing",
- "windows-sys 0.59.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -303,9 +302,9 @@ dependencies = [
 
 [[package]]
 name = "async-process"
-version = "2.3.1"
+version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cde3f4e40e6021d7acffc90095cbd6dc54cb593903d1de5832f435eb274b85dc"
+checksum = "65daa13722ad51e6ab1a1b9c01299142bc75135b337923cfa10e79bbbd669f00"
 dependencies = [
  "async-channel 2.5.0",
  "async-io",
@@ -317,7 +316,6 @@ dependencies = [
  "event-listener 5.4.0",
  "futures-lite",
  "rustix 1.0.8",
- "tracing",
 ]
 
 [[package]]
@@ -333,9 +331,9 @@ dependencies = [
 
 [[package]]
 name = "async-signal"
-version = "0.2.11"
+version = "0.2.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d7605a4e50d4b06df3898d5a70bf5fde51ed9059b0434b73105193bc27acce0d"
+checksum = "f567af260ef69e1d52c2b560ce0ea230763e6fbb9214a85d768760a920e3e3c1"
 dependencies = [
  "async-io",
  "async-lock",
@@ -346,7 +344,7 @@ dependencies = [
  "rustix 1.0.8",
  "signal-hook-registry",
  "slab",
- "windows-sys 0.59.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -793,9 +791,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.2.29"
+version = "1.2.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c1599538de2394445747c8cf7935946e3cc27e9625f889d979bfb2aaf569362"
+checksum = "deec109607ca693028562ed836a5f1c4b8bd77755c4e132fc5ce11b0b6211ae7"
 dependencies = [
  "jobserver",
  "libc",
@@ -1305,9 +1303,9 @@ dependencies = [
 
 [[package]]
 name = "curve25519-dalek"
-version = "4.2.0"
+version = "4.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "373b7c5dbd637569a2cca66e8d66b8c446a1e7bf064ea321d265d7b3dfe7c97e"
+checksum = "97fb8b7c4503de7d6ae7b42ab72a5a59857b4c937ec27a3d4539dba95b5ab2be"
 dependencies = [
  "cfg-if 1.0.1",
  "cpufeatures",
@@ -1890,9 +1888,9 @@ checksum = "37909eebbb50d72f9059c3b6d82c0463f2ff062c9e95845c43a6c9c0355411be"
 
 [[package]]
 name = "fiat-crypto"
-version = "0.3.0"
+version = "0.2.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "64cd1e32ddd350061ae6edb1b082d7c54915b5c672c389143b9a63403a109f24"
+checksum = "28dea519a9695b9977216879a3ebfddf92f1c08c05d984f8996aecd6ecdc811d"
 
 [[package]]
 name = "filetime"
@@ -3450,7 +3448,7 @@ dependencies = [
  "tokio",
  "tokio-rustls 0.26.2",
  "tower-service",
- "webpki-roots 1.0.1",
+ "webpki-roots 1.0.2",
 ]
 
 [[package]]
@@ -4175,7 +4173,7 @@ dependencies = [
 [[package]]
 name = "kitsune2"
 version = "0.1.9"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d233e1be3e4180ded77dfef75855e4f746b047c6"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d16a4388a4aa8bb5d85fbadb86917be3eb608114"
 dependencies = [
  "bytes",
  "kitsune2_api",
@@ -4187,7 +4185,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_api"
 version = "0.1.9"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d233e1be3e4180ded77dfef75855e4f746b047c6"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d16a4388a4aa8bb5d85fbadb86917be3eb608114"
 dependencies = [
  "base64 0.22.1",
  "bytes",
@@ -4203,7 +4201,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_bootstrap_client"
 version = "0.1.9"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d233e1be3e4180ded77dfef75855e4f746b047c6"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d16a4388a4aa8bb5d85fbadb86917be3eb608114"
 dependencies = [
  "base64 0.22.1",
  "kitsune2_api",
@@ -4215,7 +4213,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_core"
 version = "0.1.9"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d233e1be3e4180ded77dfef75855e4f746b047c6"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d16a4388a4aa8bb5d85fbadb86917be3eb608114"
 dependencies = [
  "backon",
  "bytes",
@@ -4236,7 +4234,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_dht"
 version = "0.1.9"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d233e1be3e4180ded77dfef75855e4f746b047c6"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d16a4388a4aa8bb5d85fbadb86917be3eb608114"
 dependencies = [
  "bytes",
  "kitsune2_api",
@@ -4246,7 +4244,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_gossip"
 version = "0.1.9"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d233e1be3e4180ded77dfef75855e4f746b047c6"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d16a4388a4aa8bb5d85fbadb86917be3eb608114"
 dependencies = [
  "bytes",
  "futures",
@@ -4265,7 +4263,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_transport_iroh"
 version = "0.1.9"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d233e1be3e4180ded77dfef75855e4f746b047c6"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#d16a4388a4aa8bb5d85fbadb86917be3eb608114"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -4429,9 +4427,9 @@ dependencies = [
 
 [[package]]
 name = "libredox"
-version = "0.1.4"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1580801010e535496706ba011c15f8532df6b42297d2e471fec38ceadd8c0638"
+checksum = "4488594b9328dee448adb906d8b126d9b7deb7cf5c22161ee591610bb1be83c0"
 dependencies = [
  "bitflags 2.9.1",
  "libc",
@@ -5637,17 +5635,16 @@ dependencies = [
 
 [[package]]
 name = "polling"
-version = "3.8.0"
+version = "3.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b53a684391ad002dd6a596ceb6c74fd004fdce75f4be2e3f615068abbea5fd50"
+checksum = "8ee9b2fa7a4517d2c91ff5bc6c297a427a96749d15f98fcdbb22c05571a4d4b7"
 dependencies = [
  "cfg-if 1.0.1",
  "concurrent-queue",
  "hermit-abi 0.5.2",
  "pin-project-lite",
  "rustix 1.0.8",
- "tracing",
- "windows-sys 0.59.0",
+ "windows-sys 0.60.2",
 ]
 
 [[package]]
@@ -6541,7 +6538,7 @@ dependencies = [
  "wasm-bindgen-futures",
  "wasm-streams",
  "web-sys",
- "webpki-roots 1.0.1",
+ "webpki-roots 1.0.2",
 ]
 
 [[package]]
@@ -7115,9 +7112,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.140"
+version = "1.0.141"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "20068b6e96dc6c9bd23e01df8827e6c7e1f2fddd43c21810382803c136b99373"
+checksum = "30b9eff21ebe718216c6ec64e1d9ac57087aad11efc64e32002bce4a0d4c03d3"
 dependencies = [
  "indexmap 2.10.0",
  "itoa",
@@ -8897,14 +8894,14 @@ version = "0.26.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "521bc38abb08001b01866da9f51eb7c5d647a19260e00054a8c7fd5f9e57f7a9"
 dependencies = [
- "webpki-roots 1.0.1",
+ "webpki-roots 1.0.2",
 ]
 
 [[package]]
 name = "webpki-roots"
-version = "1.0.1"
+version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8782dd5a41a24eed3a4f40b606249b3e236ca61adf1f25ea4d45c73de122b502"
+checksum = "7e8983c3ab33d6fb807cfcdad2491c4ea8cbc8ed839181c7dfd9c67c83e261b2"
 dependencies = [
  "rustls-pki-types",
 ]
