@@ -110,11 +110,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1752590070,
-        "narHash": "sha256-T/xge1i2FL0tnKNCATivs3JF/nchQ0pL2STqSYxseq0=",
+        "lastModified": 1752747268,
+        "narHash": "sha256-X9Xq07nCRCZQPO36WUYc0CE7Tj2gmWAdi98MbmyxhYw=",
         "owner": "darksoil-studio",
         "repo": "holochain-nix-builders",
-        "rev": "1c8ee29ee1a4e14536714bcdbe1d314de0d9026e",
+        "rev": "a18c48667b67066324ee217d6b2e2c2d8a5e3e61",
         "type": "github"
       },
       "original": {
@@ -143,11 +143,11 @@
         "tauri-plugin-holochain": "tauri-plugin-holochain"
       },
       "locked": {
-        "lastModified": 1752663961,
-        "narHash": "sha256-4JeT25EJTZNvpZ17fJ/KNf4yePfGsw38tNbo2a++cxc=",
+        "lastModified": 1753348049,
+        "narHash": "sha256-TSJSPHJHmNoY1fcGgLO3GkHO1DK2HD8XfS+RtDcth2g=",
         "owner": "darksoil-studio",
         "repo": "holochain-utils",
-        "rev": "9e141445c22fe57519c9cd75f068e91c633a65c8",
+        "rev": "c2e33cd720ff67dec6ab6c5acd0021d5cd57159e",
         "type": "github"
       },
       "original": {
@@ -275,11 +275,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1752590351,
-        "narHash": "sha256-Ckh2VBV4RA3jvT66A/+AlhHLRVjpj+xcfs2oogCzhf0=",
+        "lastModified": 1753170537,
+        "narHash": "sha256-vnaU7xkEWXQ/Bg+IkZT+hkF3h/ZFQ31IFEURpoT8ew8=",
         "owner": "darksoil-studio",
         "repo": "holochain-playground",
-        "rev": "379ed27d30e5de6bbc5c004590d16c62829f0d64",
+        "rev": "464d4220865aefd91cf9db19399dfa435c919db7",
         "type": "github"
       },
       "original": {
@@ -403,11 +403,11 @@
         "webkitnixpkgs": "webkitnixpkgs"
       },
       "locked": {
-        "lastModified": 1752590182,
-        "narHash": "sha256-EHHsPb5drAF/Pb/p61ckcyTJa8yeKJXdGeybjc5rddk=",
+        "lastModified": 1753307918,
+        "narHash": "sha256-q55Z/sEcQiiBIXzmpb4F2LY6cDj0m6nl4p2F81DVq+E=",
         "owner": "darksoil-studio",
         "repo": "tauri-plugin-holochain",
-        "rev": "d4d80b5d0ff94cd4aceff20b27d45699fa3ce5b4",
+        "rev": "47a40f16627189456d371bac404d2777c2eaa3c0",
         "type": "github"
       },
       "original": {
@@ -419,17 +419,17 @@
     },
     "webkitnixpkgs": {
       "locked": {
-        "lastModified": 1711404521,
-        "narHash": "sha256-cYhDZ3RYLiXAi4LQDGuQjjDDbtP00Wd/Vjal/jWyTuA=",
+        "lastModified": 1709246466,
+        "narHash": "sha256-jN8Y5Zv2tNUKIGuSqhm8yIMn2x6jhMQvNwKYduvKxjU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "07518c851b0f12351d7709274bbbd4ecc1f089c7",
+        "rev": "ed4db9c6c75079ff3570a9e3eb6806c8f692dc26",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "07518c851b0f12351d7709274bbbd4ecc1f089c7",
+        "rev": "ed4db9c6c75079ff3570a9e3eb6806c8f692dc26",
         "type": "github"
       }
     }
