@@ -164,7 +164,7 @@ async fn main() -> Result<()> {
     log::info!("Gracefully shutting down conductor...");
 
     // shutdown holochain
-    runtime.conductor_handle.shutdown().await??;
+    runtime.shutdown().await?;
 
     Ok(())
 }
