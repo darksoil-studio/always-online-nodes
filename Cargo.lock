@@ -2841,7 +2841,7 @@ dependencies = [
 [[package]]
 name = "holochain_runtime"
 version = "0.1.0"
-source = "git+https://github.com/darksoil-studio/tauri-plugin-holochain?branch=main-0.5#47a40f16627189456d371bac404d2777c2eaa3c0"
+source = "git+https://github.com/darksoil-studio/tauri-plugin-holochain?branch=main-0.5#53facb6a7503bf3fc3aae6d3806772ab7ab5867e"
 dependencies = [
  "anyhow",
  "arbitrary",
