@@ -17,15 +17,10 @@ serde = "1"
 
 [patch.crates-io]
 
-# kitsune2 = { git = "https://github.com/guillemcordoba/kitsune2", branch = "iroh-transport" }
-# kitsune2_api = { git = "https://github.com/guillemcordoba/kitsune2", branch = "iroh-transport" }
-# kitsune2_core = { git = "https://github.com/guillemcordoba/kitsune2", branch = "iroh-transport" }
-# kitsune2_gossip = { git = "https://github.com/guillemcordoba/kitsune2", branch = "iroh-transport" }
-
-kitsune2 = { path = "/home/guillem/projects/holochain/core/kitsune2-fork/kitsune2/crates/kitsune2" }
-kitsune2_api = { path = "/home/guillem/projects/holochain/core/kitsune2-fork/kitsune2/crates/api" }
-kitsune2_core = { path = "/home/guillem/projects/holochain/core/kitsune2-fork/kitsune2/crates/core" }
-kitsune2_gossip = { path = "/home/guillem/projects/holochain/core/kitsune2-fork/kitsune2/crates/gossip" }
+kitsune2 = { git = "https://github.com/guillemcordoba/kitsune2", branch = "iroh-transport" }
+kitsune2_api = { git = "https://github.com/guillemcordoba/kitsune2", branch = "iroh-transport" }
+kitsune2_core = { git = "https://github.com/guillemcordoba/kitsune2", branch = "iroh-transport" }
+kitsune2_gossip = { git = "https://github.com/guillemcordoba/kitsune2", branch = "iroh-transport" }
 
 # holochain_p2p = { path ="/home/guillem/projects/holochain/core/holochain/crates/holochain_p2p"}
 # holochain_state= { path ="/home/guillem/projects/holochain/core/holochain/crates/holochain_state"}
