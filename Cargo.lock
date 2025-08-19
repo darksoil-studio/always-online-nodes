@@ -2841,7 +2841,7 @@ dependencies = [
 [[package]]
 name = "holochain_runtime"
 version = "0.1.0"
-source = "git+https://github.com/darksoil-studio/tauri-plugin-holochain?branch=main-0.5#53facb6a7503bf3fc3aae6d3806772ab7ab5867e"
+source = "git+https://github.com/darksoil-studio/tauri-plugin-holochain?branch=main-0.5#b52941dce94c865bf69a783bd88b6405f639d50f"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -3964,8 +3964,8 @@ dependencies = [
 
 [[package]]
 name = "kitsune2"
-version = "0.1.14"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1774312a1b662f5eeb894a0a8b18b8acfd3c4ed2"
+version = "0.1.15"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
 dependencies = [
  "bytes",
  "kitsune2_api",
@@ -3976,8 +3976,8 @@ dependencies = [
 
 [[package]]
 name = "kitsune2_api"
-version = "0.1.14"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1774312a1b662f5eeb894a0a8b18b8acfd3c4ed2"
+version = "0.1.15"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
 dependencies = [
  "base64 0.22.1",
  "bytes",
@@ -3992,8 +3992,8 @@ dependencies = [
 
 [[package]]
 name = "kitsune2_bootstrap_client"
-version = "0.1.14"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1774312a1b662f5eeb894a0a8b18b8acfd3c4ed2"
+version = "0.1.15"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
 dependencies = [
  "base64 0.22.1",
  "kitsune2_api",
@@ -4004,8 +4004,8 @@ dependencies = [
 
 [[package]]
 name = "kitsune2_core"
-version = "0.1.14"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1774312a1b662f5eeb894a0a8b18b8acfd3c4ed2"
+version = "0.1.15"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
 dependencies = [
  "backon",
  "bytes",
@@ -4025,8 +4025,8 @@ dependencies = [
 
 [[package]]
 name = "kitsune2_dht"
-version = "0.1.14"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1774312a1b662f5eeb894a0a8b18b8acfd3c4ed2"
+version = "0.1.15"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
 dependencies = [
  "bytes",
  "kitsune2_api",
@@ -4035,8 +4035,8 @@ dependencies = [
 
 [[package]]
 name = "kitsune2_gossip"
-version = "0.1.14"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1774312a1b662f5eeb894a0a8b18b8acfd3c4ed2"
+version = "0.1.15"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
 dependencies = [
  "bytes",
  "futures",
@@ -4054,8 +4054,8 @@ dependencies = [
 
 [[package]]
 name = "kitsune2_transport_iroh"
-version = "0.1.14"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1774312a1b662f5eeb894a0a8b18b8acfd3c4ed2"
+version = "0.1.15"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -5588,9 +5588,9 @@ dependencies = [
 
 [[package]]
 name = "prettyplease"
-version = "0.2.36"
+version = "0.2.37"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ff24dfcda44452b9816fff4cd4227e1bb73ff5a2f1bc1105aa92fb8565ce44d2"
+checksum = "479ca8adacdd7ce8f1fb39ce9ecccbfe93a3f1344b3d0d97f20bc0196208f62b"
 dependencies = [
  "proc-macro2",
  "syn 2.0.106",
@@ -6683,9 +6683,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.142"
+version = "1.0.143"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "030fedb782600dcbd6f02d479bf0d817ac3bb40d644745b769d6a96bc3afc5a7"
+checksum = "d401abef1d108fbd9cbaebc3e46611f4b1021f714a0597a71f41ee463f5f4a5a"
 dependencies = [
  "indexmap 2.10.0",
  "itoa",
@@ -7423,9 +7423,9 @@ dependencies = [
 
 [[package]]
 name = "tinyvec"
-version = "1.9.0"
+version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "09b3661f17e86524eccd4371ab0429194e0d7c008abb45f7a7495b1719463c71"
+checksum = "bfa5fdc3bce6191a1dbc8c02d5c8bffcf557bafa17c124c5264a458f1b0613fa"
 dependencies = [
  "tinyvec_macros",
 ]
