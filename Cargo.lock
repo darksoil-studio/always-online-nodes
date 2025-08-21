@@ -3965,7 +3965,7 @@ dependencies = [
 [[package]]
 name = "kitsune2"
 version = "0.1.15"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1b99efe1a3b5bf698db8131ae316bd001f8bfb78"
 dependencies = [
  "bytes",
  "kitsune2_api",
@@ -3977,7 +3977,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_api"
 version = "0.1.15"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1b99efe1a3b5bf698db8131ae316bd001f8bfb78"
 dependencies = [
  "base64 0.22.1",
  "bytes",
@@ -3993,7 +3993,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_bootstrap_client"
 version = "0.1.15"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1b99efe1a3b5bf698db8131ae316bd001f8bfb78"
 dependencies = [
  "base64 0.22.1",
  "kitsune2_api",
@@ -4005,7 +4005,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_core"
 version = "0.1.15"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1b99efe1a3b5bf698db8131ae316bd001f8bfb78"
 dependencies = [
  "backon",
  "bytes",
@@ -4026,7 +4026,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_dht"
 version = "0.1.15"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1b99efe1a3b5bf698db8131ae316bd001f8bfb78"
 dependencies = [
  "bytes",
  "kitsune2_api",
@@ -4036,7 +4036,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_gossip"
 version = "0.1.15"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1b99efe1a3b5bf698db8131ae316bd001f8bfb78"
 dependencies = [
  "bytes",
  "futures",
@@ -4055,7 +4055,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_transport_iroh"
 version = "0.1.15"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1ff5a4d7c24e8aa7f7b566c521c3d067ac39cfdd"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport#1b99efe1a3b5bf698db8131ae316bd001f8bfb78"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
