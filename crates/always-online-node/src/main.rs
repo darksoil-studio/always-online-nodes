@@ -9,6 +9,7 @@ use log::Level;
 use std::io::Write;
 use std::path::PathBuf;
 use std::str::FromStr;
+use std::time::Duration;
 use url2::Url2;
 
 #[derive(Parser, Debug)]
@@ -158,13 +159,25 @@ async fn main() -> Result<()> {
     log::info!("Starting always online node for DNAs {:?}", app_ids);
 
     // wait for a unix signal or ctrl-c instruction to
+    // shutdown holochain
+    ctrlc::set_handler(move || {
+        let r = runtime.clone();
+        holochain_util::tokio_helper::block_on(
+            async move {
+                log::info!("Gracefully shutting down conductor...");
+                if let Err(err) = r.shutdown().await {
+                    log::error!("Failed to shutdown conductor: {err:?}.");
+                }
+            },
+            Duration::from_secs(10),
+        )
+        .expect("Failed to block on shutdown.");
+    })?;
+
+    // wait for a unix signal or ctrl-c instruction to
     tokio::signal::ctrl_c()
         .await
         .unwrap_or_else(|e| log::error!("Could not handle termination signal: {:?}", e));
-    log::info!("Gracefully shutting down conductor...");
-
-    // shutdown holochain
-    runtime.shutdown().await?;
 
     Ok(())
 }

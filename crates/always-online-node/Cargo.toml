@@ -9,9 +9,11 @@ holochain_client = "0.7.0"
 holochain_conductor_api = "0.5"
 holochain_types = "0.5"
 mr_bundle = "0.5"
+holochain_util = "0.5"
 
 anyhow = "1"
 clap = {version = "4.5.4", features = [ "derive" ] }
+ctrlc = { version = "3.4", features = ["termination"] }
 tokio = { version = "1", features = [ "full" ] } 
 sha256 = "1"
 url2 = "0.0.6"
