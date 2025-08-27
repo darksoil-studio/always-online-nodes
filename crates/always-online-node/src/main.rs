@@ -172,6 +172,7 @@ async fn main() -> Result<()> {
             Duration::from_secs(10),
         )
         .expect("Failed to block on shutdown.");
+        std::process::exit(0);
     })?;
 
     // wait for a unix signal or ctrl-c instruction to
