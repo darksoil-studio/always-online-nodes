@@ -130,7 +130,7 @@ async fn main() -> Result<()> {
                         continue;
                     };
                     let dna_def = admin_ws
-                        .get_dna_definition(cell_id.dna_hash().clone())
+                        .get_dna_definition(cell_id.clone())
                         .await
                         .map_err(|err| anyhow!("{err:?}"))?;
 
@@ -184,8 +184,8 @@ async fn main() -> Result<()> {
 }
 
 async fn read_from_file(happ_bundle_path: &PathBuf) -> Result<AppBundle> {
-    mr_bundle::Bundle::read_from_file(happ_bundle_path)
-        .await
+    let bytes = std::fs::read(happ_bundle_path)?;
+    mr_bundle::Bundle::unpack(&bytes[..])
         .map(Into::into)
         .map_err(Into::into)
 }

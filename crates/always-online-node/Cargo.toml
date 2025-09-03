@@ -4,12 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-holochain_runtime = { git = "https://github.com/darksoil-studio/tauri-plugin-holochain", branch = "main-0.5" }
-holochain_client = "0.7.0"
-holochain_conductor_api = "0.5"
-holochain_types = "0.5"
-mr_bundle = "0.5"
-holochain_util = "0.5"
+holochain_runtime = { git = "https://github.com/darksoil-studio/tauri-plugin-holochain", branch = "main-0.6" }
+holochain_client = "0.8.0-dev"
+holochain_conductor_api = "0.6.0-dev"
+holochain_types = "0.6.0-dev"
+mr_bundle = "0.6.0-dev"
+holochain_util = "0.6.0-dev"
 
 anyhow = "1"
 clap = {version = "4.5.4", features = [ "derive" ] }
