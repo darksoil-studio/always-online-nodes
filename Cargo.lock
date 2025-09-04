@@ -2780,7 +2780,7 @@ dependencies = [
 [[package]]
 name = "holochain_runtime"
 version = "0.1.0"
-source = "git+https://github.com/darksoil-studio/tauri-plugin-holochain?branch=main-0.6#f86fd704c2fc3b53c513afb425f594c9a1819e6d"
+source = "git+https://github.com/darksoil-studio/tauri-plugin-holochain?branch=main-0.6#53ff81b0f218441643b33eec6d20ff2717e01f2a"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -3903,7 +3903,7 @@ dependencies = [
 [[package]]
 name = "kitsune2"
 version = "0.2.17"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#877408c5bb5aaa8bd606c630b5a03c580356d484"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#74609cb9d690db9b95714adb12ffce5869507158"
 dependencies = [
  "bytes",
  "kitsune2_api",
@@ -3916,7 +3916,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_api"
 version = "0.2.17"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#877408c5bb5aaa8bd606c630b5a03c580356d484"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#74609cb9d690db9b95714adb12ffce5869507158"
 dependencies = [
  "base64",
  "bytes",
@@ -3932,7 +3932,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_bootstrap_client"
 version = "0.2.17"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#877408c5bb5aaa8bd606c630b5a03c580356d484"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#74609cb9d690db9b95714adb12ffce5869507158"
 dependencies = [
  "base64",
  "kitsune2_api",
@@ -3946,7 +3946,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_core"
 version = "0.2.17"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#877408c5bb5aaa8bd606c630b5a03c580356d484"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#74609cb9d690db9b95714adb12ffce5869507158"
 dependencies = [
  "bytes",
  "ed25519-dalek",
@@ -3965,7 +3965,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_dht"
 version = "0.2.17"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#877408c5bb5aaa8bd606c630b5a03c580356d484"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#74609cb9d690db9b95714adb12ffce5869507158"
 dependencies = [
  "bytes",
  "kitsune2_api",
@@ -3975,7 +3975,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_gossip"
 version = "0.2.17"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#877408c5bb5aaa8bd606c630b5a03c580356d484"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#74609cb9d690db9b95714adb12ffce5869507158"
 dependencies = [
  "bytes",
  "futures",
@@ -3994,7 +3994,7 @@ dependencies = [
 [[package]]
 name = "kitsune2_transport_iroh"
 version = "0.2.17"
-source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#877408c5bb5aaa8bd606c630b5a03c580356d484"
+source = "git+https://github.com/guillemcordoba/kitsune2?branch=iroh-transport-v0.2#74609cb9d690db9b95714adb12ffce5869507158"
 dependencies = [
  "anyhow",
  "base64",
@@ -4011,8 +4011,7 @@ dependencies = [
 [[package]]
 name = "kitsune_p2p_mdns"
 version = "0.4.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "638a82ec55e7959f2148f821e4897937ec1ccc1a69fc575e604053fe9cf788f5"
+source = "git+https://github.com/darksoil-studio/tauri-plugin-holochain?branch=main-0.6#53ff81b0f218441643b33eec6d20ff2717e01f2a"
 dependencies = [
  "base64",
  "libmdns",
@@ -8941,9 +8940,9 @@ dependencies = [
 
 [[package]]
 name = "zstd-sys"
-version = "2.0.15+zstd.1.5.7"
+version = "2.0.16+zstd.1.5.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eb81183ddd97d0c74cedf1d50d85c8d08c1b8b68ee863bdee9e706eedba1a237"
+checksum = "91e19ebc2adc8f83e43039e79776e3fda8ca919132d68a1fed6a5faca2683748"
 dependencies = [
  "cc",
  "pkg-config",
